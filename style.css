@@ -1,0 +1,436 @@
+/* ============================================================
+   RESET & ROOT
+   ============================================================ */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg:     #1a1025;
+  --white:  #ffffff;
+  --accent: #c9b8f0;
+}
+
+/* ============================================================
+   BASE
+   ============================================================ */
+html, body {
+  width: 100%;
+  height: 100%;
+  font-family: 'Poppins', sans-serif;
+  background: var(--bg);
+  color: var(--white);
+  overflow-x: hidden;
+}
+
+/* ============================================================
+   BACKGROUND GRADIENT
+   ============================================================ */
+.bg-gradient {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background: radial-gradient(
+    ellipse 80% 80% at 60% 50%,
+    #2e1a4a 0%,
+    #1a1025 55%,
+    #0e0b18 100%
+  );
+}
+
+/* ============================================================
+   PAGE WRAPPER
+   ============================================================ */
+.page {
+  position: relative;
+  z-index: 1;
+  width: 100vw;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  padding: clamp(20px, 3.5vw, 40px) clamp(20px, 4vw, 56px);
+}
+
+/* ============================================================
+   TOP BAR
+   ============================================================ */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-shrink: 0;
+}
+
+.logo {
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1;
+  user-select: none;
+}
+
+/* ── NAV ── */
+.nav {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 5px;
+}
+
+.nav a {
+  text-decoration: none;
+  /* doubled from original ~0.72rem → ~1.44rem range */
+  font-size: clamp(1.1rem, 2vw, 1.44rem);
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  color: var(--white);
+  text-transform: uppercase;
+  transition: color 0.2s, letter-spacing 0.2s;
+}
+
+.nav a:hover {
+  color: var(--accent);
+  letter-spacing: 0.26em;
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero {
+  flex: 1;
+  display: flex;
+  align-items: stretch;
+  position: relative;
+  min-height: 0;
+}
+
+/* ── NAME BLOCK — bottom left ── */
+.hero-text {
+  position: absolute;
+  left: 0;
+  bottom: clamp(16px, 3vw, 32px);
+  z-index: 4;
+  max-width: 34%;
+  animation: fadeUp 1s ease both;
+}
+
+.hero-name {
+  font-size: clamp(1.4rem, 3.2vw, 3.4rem);
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: -0.5px;
+  text-transform: uppercase;
+  color: var(--white);
+}
+
+.hero-tagline {
+  margin-top: 8px;
+  font-size: clamp(0.72rem, 1.1vw, 0.92rem);
+  font-weight: 400;
+  color: var(--accent);
+  letter-spacing: 0.03em;
+}
+
+/* ── CIRCLE + PHOTO — centred ── */
+.hero-photo-wrap {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: clamp(240px, 44vw, 580px);
+  aspect-ratio: 1 / 1;
+  z-index: 2;
+  animation: fadeIn 1.2s ease both;
+}
+
+.hero-circle {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: #ffffff;
+}
+
+.hero-photo {
+  position: absolute;
+  bottom: 0;
+  left: 65%;
+  transform: translateX(-50%);
+  width: 160%;
+  height: 190%;
+  object-fit: cover;
+  object-position: center top;
+}
+
+/* ── CONNECT BUTTON — bottom right ── */
+.connect-wrap {
+  position: absolute;
+  right: 0;
+  bottom: clamp(16px, 3vw, 32px);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 5;
+  cursor: pointer;
+  animation: fadeUp 1.3s ease both;
+}
+
+.connect-label {
+  font-size: clamp(0.6rem, 1vw, 0.72rem);
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--white);
+  transition: color 0.2s;
+}
+
+.connect-btn {
+  width: clamp(36px, 4vw, 46px);
+  height: clamp(36px, 4vw, 46px);
+  border-radius: 50%;
+  background: var(--white);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s, background 0.2s;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  flex-shrink: 0;
+}
+
+.connect-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+.connect-wrap:hover .connect-btn {
+  transform: scale(1.12);
+  background: var(--accent);
+}
+
+.connect-wrap:hover .connect-label {
+  color: var(--accent);
+}
+
+/* ============================================================
+   CONTACT MODAL
+   ============================================================ */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(10, 7, 20, 0.75);
+  backdrop-filter: blur(8px);
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modal-overlay.active {
+  display: flex;
+}
+
+.modal-card {
+  background: #1e1535;
+  border: 1px solid rgba(201, 184, 240, 0.18);
+  border-radius: 20px;
+  padding: clamp(24px, 4vw, 42px) clamp(22px, 4vw, 44px);
+  width: 100%;
+  max-width: 420px;
+  position: relative;
+  animation: popIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6);
+}
+
+.modal-close {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 1.5rem;
+  cursor: pointer;
+  line-height: 1;
+  transition: color 0.2s;
+}
+
+.modal-close:hover {
+  color: var(--white);
+}
+
+.modal-title {
+  font-size: clamp(0.88rem, 1.8vw, 1.08rem);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  margin-bottom: 4px;
+  color: var(--white);
+}
+
+.modal-subtitle {
+  font-size: 0.76rem;
+  color: var(--accent);
+  font-weight: 400;
+  margin-bottom: 22px;
+}
+
+/* ── CONTACT LIST ── */
+.contact-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.contact-item a {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  text-decoration: none;
+  padding: 11px 14px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  transition: background 0.2s, border-color 0.2s, transform 0.2s;
+}
+
+.contact-item a:hover {
+  background: rgba(201, 184, 240, 0.1);
+  border-color: rgba(201, 184, 240, 0.28);
+  transform: translateX(4px);
+}
+
+.contact-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.contact-icon svg {
+  width: 17px;
+  height: 17px;
+}
+
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.contact-type {
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.38);
+}
+
+.contact-val {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--white);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* icon accent backgrounds */
+.ci-phone { background: rgba(52, 199, 89, 0.18); }
+.ci-mail  { background: rgba(255, 149, 0, 0.18); }
+.ci-insta { background: rgba(225, 48, 108, 0.18); }
+.ci-li    { background: rgba(0, 119, 181, 0.18); }
+.ci-wa    { background: rgba(37, 211, 102, 0.18); }
+
+/* ============================================================
+   KEYFRAME ANIMATIONS
+   ============================================================ */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translate(-50%, -44%); }
+  to   { opacity: 1; transform: translate(-50%, -50%); }
+}
+
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.82) translateY(20px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* ============================================================
+   RESPONSIVE — TABLET & MOBILE (≤ 768px)
+   ============================================================ */
+@media (max-width: 768px) {
+  body { overflow: auto; }
+
+  .page {
+    min-height: 100dvh;
+    padding: 22px 20px 28px;
+  }
+
+  .hero {
+    flex-direction: column;
+    align-items: center;
+    min-height: 75vw;
+    padding-bottom: 70px;
+  }
+
+  .hero-photo-wrap {
+    position: relative;
+    left: auto;
+    top: auto;
+    transform: none;
+    width: clamp(200px, 68vw, 340px);
+    margin: 18px auto 0;
+    animation: none;
+    opacity: 1;
+  }
+
+  .hero-text {
+    position: relative;
+    left: auto;
+    bottom: auto;
+    max-width: 100%;
+    margin-top: 18px;
+    text-align: center;
+    animation: none;
+  }
+
+  .hero-name {
+    font-size: clamp(1.4rem, 6vw, 2rem);
+  }
+
+  .connect-wrap {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    justify-content: center;
+    margin-top: 20px;
+    animation: none;
+  }
+
+  .hero-photo {
+    width: 78%;
+    height: 112%;
+  }
+
+  .nav a {
+    font-size: clamp(0.9rem, 3.5vw, 1.1rem);
+  }
+}
+
+/* ── SMALL PHONES (≤ 480px) ── */
+@media (max-width: 480px) {
+  .nav { gap: 4px; }
+  .nav a { font-size: 0.88rem; letter-spacing: 0.1em; }
+  .hero-name { font-size: 1.35rem; }
+}
